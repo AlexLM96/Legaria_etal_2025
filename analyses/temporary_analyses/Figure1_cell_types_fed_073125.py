@@ -228,8 +228,6 @@ metadata = {
             "F488": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_F488_bandit_031825.csv", index_col=0),
             "M690": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_M690_bandit_040325.csv", index_col=0),
             "M700": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_M700_bandit_040325.csv", index_col=0),
-            "F783": pd.read_csv(fileloc + r"\meta_saline_D1_F783_bandit_051325.csv", index_col=0),
-            "F782": pd.read_csv(fileloc + r"\meta_saline_D1_F782_bandit_051325.csv", index_col=0),
             "M780": pd.read_csv(fileloc + r"\meta_saline_D1_M780_bandit_051325.csv", index_col=0),
             "F797": pd.read_csv(fileloc + r"\meta_saline_D1_F797_bandit_051325.csv", index_col=0)
             },
