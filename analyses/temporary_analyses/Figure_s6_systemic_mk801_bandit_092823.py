@@ -12,7 +12,7 @@ import seaborn as sns
 import datetime
 import fed3bandit as f3b
 import copy
-from scipy.stats import ttest_rel
+from scipy.stats import ttest_rel, ttest_ind
 
 plt.rcParams.update({'font.size': 24, 'figure.autolayout': False})
 
@@ -31,7 +31,7 @@ post_hours = 8
 
 saline_data = {
     "saline_1": {
-        "C48M1": pd.read_csv(file_loc + "\\saline_C48M1_022723.csv"),
+        #"C48M1": pd.read_csv(file_loc + "\\saline_C48M1_022723.csv"),
         "C48M3": pd.read_csv(file_loc + "\\saline_C48M3_022723.csv"),
         "C50F1": pd.read_csv(file_loc + "\\saline_C50F1_022723.csv"),
         "C50F5": pd.read_csv(file_loc + "\\saline_C50F5_022723.csv"),
@@ -308,7 +308,8 @@ mk801_ppp_ttest = ttest_rel(m_all_ppp["value"][m_all_ppp["variable"]== "Sal"], m
 
 """Here we look for the win-stay"""
 
-saline_ws = {}for session in p_saline_data:
+saline_ws = {}
+for session in p_saline_data:
     c_session = p_saline_data[session]
     c_session_ws = {mouse: [f3b.win_stay(c_session[mouse])] for mouse in c_session}
     saline_ws = saline_ws | c_session_ws
