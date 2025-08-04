@@ -17,6 +17,7 @@ from scipy.signal import find_peaks, periodogram, spectrogram, filtfilt, butter,
 
 figure_dir = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\cell_type_photometry_systemic_mk801\Figure_panels"
 file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\Open_field"
+file_loc = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\Open_field"
 
 plt.rcParams.update({'font.size': 32, 'figure.autolayout': True, 'lines.linewidth': 2})
 
@@ -151,9 +152,7 @@ for strain in files:
         c_hat = regr.predict(c_isos.reshape(-1,1))
         
         
-        c_norm = (c_gcamp - c_hat[:,0])
-        #c_norm_baseline = c_baseline_gcamp_2
-        #c_norm_2 = c_norm
+        c_norm = c_gcamp - c_hat[:,0]
         c_norm_2 = butter_filter(c_norm, 'bandpass', (0.001, 6), (1/c_sr))
         z_norm = (c_norm_2 - c_norm_2.mean()) / c_norm_2.std()
         #z_norm = c_norm_2
