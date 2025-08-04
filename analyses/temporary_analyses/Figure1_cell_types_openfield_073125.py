@@ -16,9 +16,7 @@ from scipy.signal import find_peaks, periodogram, spectrogram, filtfilt, butter,
 
 
 figure_dir = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\cell_type_photometry_systemic_mk801\Figure_panels"
-file_loc = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\cell_type_photometry_systemic_mk801\Data"
-file_loc = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025_data\Cell_type_openfield_mk801"
-file_loc2 = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\ephys_photom_systemic_MK801_OF\Data\mk801\raw_data"
+file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\Open_field"
 
 plt.rcParams.update({'font.size': 32, 'figure.autolayout': True, 'lines.linewidth': 2})
 
@@ -55,21 +53,6 @@ def butter_filter(signal, filt_type, freqs, sr, order=3):
 
 #%%
 
-other_fileloc = r"F:\Alex"
-
-file = pd.read_csv(other_fileloc + r"\M484_D1_IP_MK801_OF_022725.csv")
-
-fig, ax = plt.subplots()
-ax.plot(file["Time"].iloc[100:], file["Fluorescence"].iloc[100:])
-
-fig, ax = plt.subplots()
-ax.plot(file["Time"].iloc[100:], file["Isosbestic"].iloc[100:])
-
-
-test_file2 = pd.read_csv(file_loc + r"\M484_D1_IP_MK801_OF_022725.csv")
-
-#%%
-
 files = {
     "Saline": {
         "C97M1": pd.read_csv(file_loc + r"\c97m1_arrayfiber_saline_091823.csv"),
@@ -87,7 +70,7 @@ files = {
         "GA12": pd.read_csv(file_loc + r"\GA12_mk801_of_041924.csv")
         },
     "D1-Cre": {
-        "F491": pd.read_csv(file_loc + r"\F491_D1_MK801_OFl_010625.csv").iloc[40:,:],
+        "F491": pd.read_csv(file_loc + r"\F491_D1_MK801_OF_010625.csv").iloc[40:,:],
         "F488": pd.read_csv(file_loc + r"\F488_D1_MK801_OF_010525.csv"),
         "F490": pd.read_csv(file_loc + r"\F490_D1_MK801_OF_010525.csv").iloc[40:-800,:],
         "M484": pd.read_csv(file_loc + r"\M484_D1_IP_MK801_OF_022725.csv"),
@@ -180,11 +163,51 @@ for strain in files:
         
 #%%
 
+p_data = {}
+ts = {}
+for strain in files:
+    p_data[strain] = {}
+    ts[strain] = {}
+    for mouse in files[strain]:
+        c_data = files[strain][mouse]
+        
+        c_ts = c_data["Time"].iloc[150:-150].to_numpy()
+        c_isos = c_data["Isosbestic"].iloc[150:-150].to_numpy()
+        c_gcamp = c_data["Fluorescence"].iloc[150:-150].to_numpy()
+        c_sr = np.diff(c_ts).mean()
+        
+        if np.min(c_gcamp) < 0:
+            print(strain, mouse)
+        
+        regr = LinearRegression()
+        regr.fit(c_isos.reshape(-1,1), c_gcamp.reshape(-1,1))
+        c_hat = regr.predict(c_isos.reshape(-1,1))
+        
+        # fig, ax = plt.subplots()
+        # ax.plot(c_ts, c_gcamp)
+        # ax.plot(c_ts, c_hat[:,0])
+        # plt.show(block=True)
+        
+        
+        c_dff = (c_gcamp - c_hat[:,0])
+        
+        # fig, ax = plt.subplots()
+        # ax.plot(c_ts, c_dff)
+        # ax.plot(c_ts, c_hat[:,0])
+        # plt.show(block=True)
+        
+        #c_f_dff = butter_filter(c_dff, 'bandpass', (0.001, 6), (1/c_sr))
+    
+        p_data[strain][mouse] = c_gcamp
+        ts[strain][mouse] = c_ts
+        
+#%%
+
 """
 Here we double-check that everything looks okay.
 """
-strain = "Non-Selective"
-mouse =  "GA11"
+strain = "Saline"
+mouse =  "C97M1"
 
 fig, ax = plt.subplots()
 ax.plot(ts[strain][mouse], p_data[strain][mouse])
