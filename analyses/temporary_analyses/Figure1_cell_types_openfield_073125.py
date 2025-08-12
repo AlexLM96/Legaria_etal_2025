@@ -15,7 +15,7 @@ import seaborn as sns
 from scipy.signal import find_peaks, periodogram, spectrogram, filtfilt, butter, find_peaks_cwt, correlate, welch, peak_prominences, resample
 
 
-figure_dir = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\cell_type_photometry_systemic_mk801\Figure_panels"
+figure_dir = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025\Figures\Figure_panels"
 file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\Open_field"
 file_loc = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\Open_field"
 
@@ -153,7 +153,7 @@ for strain in files:
         
         
         c_norm = c_gcamp - c_hat[:,0]
-        c_norm_2 = butter_filter(c_norm, 'bandpass', (0.001, 6), (1/c_sr))
+        c_norm_2 = butter_filter(c_norm, 'bandpass', (0.005, 6), (1/c_sr))
         z_norm = (c_norm_2 - c_norm_2.mean()) / c_norm_2.std()
         #z_norm = c_norm_2
     
@@ -162,51 +162,11 @@ for strain in files:
         
 #%%
 
-p_data = {}
-ts = {}
-for strain in files:
-    p_data[strain] = {}
-    ts[strain] = {}
-    for mouse in files[strain]:
-        c_data = files[strain][mouse]
-        
-        c_ts = c_data["Time"].iloc[150:-150].to_numpy()
-        c_isos = c_data["Isosbestic"].iloc[150:-150].to_numpy()
-        c_gcamp = c_data["Fluorescence"].iloc[150:-150].to_numpy()
-        c_sr = np.diff(c_ts).mean()
-        
-        if np.min(c_gcamp) < 0:
-            print(strain, mouse)
-        
-        regr = LinearRegression()
-        regr.fit(c_isos.reshape(-1,1), c_gcamp.reshape(-1,1))
-        c_hat = regr.predict(c_isos.reshape(-1,1))
-        
-        # fig, ax = plt.subplots()
-        # ax.plot(c_ts, c_gcamp)
-        # ax.plot(c_ts, c_hat[:,0])
-        # plt.show(block=True)
-        
-        
-        c_dff = (c_gcamp - c_hat[:,0])
-        
-        # fig, ax = plt.subplots()
-        # ax.plot(c_ts, c_dff)
-        # ax.plot(c_ts, c_hat[:,0])
-        # plt.show(block=True)
-        
-        #c_f_dff = butter_filter(c_dff, 'bandpass', (0.001, 6), (1/c_sr))
-    
-        p_data[strain][mouse] = c_gcamp
-        ts[strain][mouse] = c_ts
-        
-#%%
-
 """
 Here we double-check that everything looks okay.
 """
-strain = "Saline"
-mouse =  "C97M1"
+strain = "D1-Cre"
+mouse =  "F490"
 
 fig, ax = plt.subplots()
 ax.plot(ts[strain][mouse], p_data[strain][mouse])
@@ -250,7 +210,7 @@ for strain in aligned_data:
     for mouse in aligned_data[strain]:
         print(strain, mouse)
         c_data = aligned_data[strain][mouse]
-        c_peaks = find_peaks(c_data, prominence=2)
+        c_peaks = find_peaks(c_data, prominence=3)
         c_peak_ts = peh_ts[c_peaks[0]]
         all_peaks[strain][mouse] = c_peaks[0]
         all_peak_ts[strain][mouse] = c_peak_ts
@@ -260,7 +220,7 @@ for strain in aligned_data:
 
 """Here we visualize the peaks to make sure everything looks fine"""
 
-strain = "Non-Selective"
+strain = "Saline"
 mouse = "GA12"
 
 #Visualize peaks
@@ -268,6 +228,48 @@ fig, ax = plt.subplots()
 ax.plot(peh_ts, aligned_data[strain][mouse])
 ax.scatter(peh_ts[all_peaks[strain][mouse]], aligned_data[strain][mouse][all_peaks[strain][mouse]], c="red")
         
+
+
+#%%
+
+"""
+Here we get the example traces (Figure 1B)
+"""
+
+#Saline
+mouse = "GA12"
+fig, ax = plt.subplots(figsize=(18,2))
+ax.plot(peh_ts, aligned_data["Saline"][mouse], c="darkcyan")
+ax.scatter(peh_ts[all_peaks["Saline"][mouse]], aligned_data["Saline"][mouse][all_peaks["Saline"][mouse]], c="red", linewidth=3)
+ax.set_ylim(-3,8)
+plt.savefig(figure_dir + r"\Figure1_example_celltype_of_saline.eps", bbox_inches="tight")
+
+
+#All striatal neurons
+mouse = "C97M3"
+fig, ax = plt.subplots(figsize=(18,2))
+ax.plot(peh_ts, aligned_data["Non-Selective"][mouse], c="olive")
+ax.scatter(peh_ts[all_peaks["Non-Selective"][mouse]], aligned_data["Non-Selective"][mouse][all_peaks["Non-Selective"][mouse]], c="red")
+ax.set_ylim(-3,8)
+
+
+#D1-MSNs
+mouse = "F692"
+fig, ax = plt.subplots(figsize=(18,2))
+ax.plot(peh_ts, aligned_data["D1-Cre"][mouse], c="mediumblue")
+ax.scatter(peh_ts[all_peaks["D1-Cre"][mouse]], aligned_data["D1-Cre"][mouse][all_peaks["D1-Cre"][mouse]], c="red", s=80, alpha=0.5, edgecolor="None")
+ax.set_ylim(-3,8)
+plt.savefig(figure_dir + r"\Figure1_example_celltype_of_d1msn.eps", bbox_inches="tight")
+
+
+#D2-MSNs
+mouse = "M524"
+fig, ax = plt.subplots(figsize=(18,2))
+ax.plot(peh_ts, aligned_data["A2a-Cre"][mouse], c="maroon")
+ax.scatter(peh_ts[all_peaks["A2a-Cre"][mouse]], aligned_data["A2a-Cre"][mouse][all_peaks["A2a-Cre"][mouse]], c="red")
+ax.set_ylim(-3,8)
+
+
 #%%
 
 """Bin number of bins into 5 minute bins and plot peak rate"""

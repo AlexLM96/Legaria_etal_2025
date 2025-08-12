@@ -53,22 +53,6 @@ def sides(data_choices):
             right.append(1)
                 
     return np.subtract(left, right)
-    
-
-#%%
-
-t_slice = saline_slices["saline_1"]["C116F3"]
-
-
-t_side = sides(t_slice)
-
-t_x = f3b.create_X(t_slice, t_side, 5)
-
-t_logreg = f3b.logit_regr(t_x)
-t_params = t_logreg.params
-
-fig, ax = plt.subplots()
-ax.scatter(np.arange(5), t_params)
 
 #%%
 
