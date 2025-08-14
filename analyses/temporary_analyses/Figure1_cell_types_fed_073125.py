@@ -17,14 +17,12 @@ import warnings
 from scipy.signal import find_peaks, periodogram, spectrogram, filtfilt, butter, find_peaks_cwt, correlate, welch, peak_prominences, resample
 from scipy.stats import ttest_rel, ttest_ind
 
-#figure_dir = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\gcamp_bandit_corrs\Figure_panels"
-figure_dir = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025\Figure_panels"
-#fileloc = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis project\gcamp_bandit_corrs\photometry recordings"
-fileloc = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025_data\gcamp_bandit_corrs\photometry recordings"
-fileloc2 = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025_data\Mason Data"
+figure_dir = r"C:\Users\Alex\Desktop\Legaria_etal_2025\Figures\Figure_panels"
+fileloc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\FED"
 
+plt.rcParams.update({'font.size': 32, 'figure.autolayout': True, 'lines.linewidth': 2})
 
-plt.rcParams.update({'font.size': 24, 'figure.autolayout': True, 'lines.linewidth': 2})
+events_fixed = False
 
 #%%
 
@@ -144,13 +142,6 @@ def contvar_peh(var_ts, var_vals, ref_ts, min_max, bin_width = False):
 
 #%%
 
-"""
-Notes F783 MK801 has a very strong inhibition. Check data
-You need to normalize to baseline.
-"""
-
-#%%
-
 
 """
 Loading all the data
@@ -159,31 +150,31 @@ Loading all the data
 raw_data = {
     "D1-Cre": {
         "Saline": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_D1_F488_bandit_031825.csv"),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_D1_M690_bandit_040325.csv"),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_D1_M700_bandit_040325.csv"),
+            "F488": pd.read_csv(fileloc + r"\saline_D1_F488_bandit_031825.csv"),
+            "M690": pd.read_csv(fileloc + r"\saline_D1_M690_bandit_040325.csv"),
+            "M700": pd.read_csv(fileloc + r"\saline_D1_M700_bandit_040325.csv"),
             "M780": pd.read_csv(fileloc + r"\saline_D1_M780_bandit_051325.csv"),
             "F797": pd.read_csv(fileloc + r"\saline_D1_F797_bandit_051325.csv"),
             },
         "MK801": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_D1_F488_bandit_040425.csv"),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_D1_M690_bandit_042925.csv"),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_D1_M700_bandit_042525.csv"),
-            "M780": pd.read_csv(fileloc2 + r"\mk801_D1_M780_bandit_060925.csv"),
-            "F797": pd.read_csv(fileloc2 + r"\mk801_D1_F797_bandit_060925.csv")
+            "F488": pd.read_csv(fileloc + r"\mk801_D1_F488_bandit_040425.csv"),
+            "M690": pd.read_csv(fileloc + r"\mk801_D1_M690_bandit_042925.csv"),
+            "M700": pd.read_csv(fileloc + r"\mk801_D1_M700_bandit_042525.csv"),
+            "M780": pd.read_csv(fileloc + r"\mk801_D1_M780_bandit_060925.csv"),
+            "F797": pd.read_csv(fileloc + r"\mk801_D1_F797_bandit_060925.csv")
             }
         },
     "A2a-Cre": {
         "Saline": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_A2a_M521_bandit_011025.csv"),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_A2a_C139M1_bandit_041425.csv"),
-            "C139M2": pd.read_csv(fileloc + r"\saline_C139M2_A2a_bandit_041425.csv"),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Raw_files\saline_A2a_C139M4_bandit_040725.csv")
+            "M521": pd.read_csv(fileloc + r"\saline_A2a_M521_bandit_011025.csv"),
+            "C139M1": pd.read_csv(fileloc + r"\saline_A2a_C139M1_bandit_041425.csv"),
+            "C139M2": pd.read_csv(fileloc + r"\saline_A2a_C139M2_bandit_041425.csv"),
+            "C139M4": pd.read_csv(fileloc + r"\saline_A2a_C139M4_bandit_040725.csv")
             },
         "MK801": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_A2a_M521_bandit_030625.csv"),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_A2a_C139M1_bandit_050225.csv"),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Raw_files\mk801_A2a_C139M4_bandit_042425.csv"),
+            "M521": pd.read_csv(fileloc + r"\mk801_A2a_M521_bandit_030625.csv"),
+            "C139M1": pd.read_csv(fileloc + r"\mk801_A2a_C139M1_bandit_050225.csv"),
+            "C139M4": pd.read_csv(fileloc + r"\mk801_A2a_C139M4_bandit_042425.csv"),
             "C139M2": pd.read_csv(fileloc + r"\mk801_A2a_C139M2_bandit_042525.csv")
             }
         }
@@ -192,75 +183,44 @@ raw_data = {
 events = {
     "D1-Cre": {
         "Saline": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_D1_F488_bandit_031825.csv", index_col=0),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_D1_M690_bandit_040325.csv", index_col=0),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_D1_M700_bandit_040325.csv", index_col=0),
+            "F488": pd.read_csv(fileloc + r"\events_saline_D1_F488_bandit_031825.csv", index_col=0),
+            "M690": pd.read_csv(fileloc + r"\events_saline_D1_M690_bandit_040325.csv", index_col=0),
+            "M700": pd.read_csv(fileloc + r"\events_saline_D1_M700_bandit_040325.csv", index_col=0),
             "M780": pd.read_csv(fileloc + r"\events_saline_D1_M780_bandit_051325.csv", index_col=0),
             "F797": pd.read_csv(fileloc + r"\events_saline_D1_F797_bandit_051325.csv", index_col=0)
             },
         "MK801": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_D1_F488_bandit_040425.csv", index_col=0),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_D1_M690_bandit_042925.csv", index_col=0),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_D1_M700_bandit_042525.csv", index_col=0),
-            "M780": pd.read_csv(fileloc2 + r"\events_mk801_D1_M780_bandit_060925.csv", index_col=0),
-            "F797": pd.read_csv(fileloc2 + r"\events_mk801_D1_F797_bandit_060925.csv", index_col=0)
+            "F488": pd.read_csv(fileloc + r"\events_mk801_D1_F488_bandit_040425.csv", index_col=0),
+            "M690": pd.read_csv(fileloc + r"\events_mk801_D1_M690_bandit_042925.csv", index_col=0),
+            "M700": pd.read_csv(fileloc + r"\events_mk801_D1_M700_bandit_042525.csv", index_col=0),
+            "M780": pd.read_csv(fileloc + r"\events_mk801_D1_M780_bandit_060925.csv", index_col=0),
+            "F797": pd.read_csv(fileloc + r"\events_mk801_D1_F797_bandit_060925.csv", index_col=0)
             }
         },
     "A2a-Cre": {
         "Saline": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_A2a_M521_bandit_011025.csv", index_col=0),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_A2a_C139M1_bandit_041425.csv", index_col=0),
-            "C139M2": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_A2a_C139M2_bandit_041425.csv", index_col=0),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_saline_A2a_C139M4_bandit_040725.csv", index_col=0)
+            "M521": pd.read_csv(fileloc + r"\events_saline_A2a_M521_bandit_011025.csv", index_col=0),
+            "C139M1": pd.read_csv(fileloc + r"\events_saline_A2a_C139M1_bandit_041425.csv", index_col=0),
+            "C139M2": pd.read_csv(fileloc + r"\events_saline_A2a_C139M2_bandit_041425.csv", index_col=0),
+            "C139M4": pd.read_csv(fileloc + r"\events_saline_A2a_C139M4_bandit_040725.csv", index_col=0)
             },
         "MK801": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_A2a_M521_bandit_030625.csv", index_col=0),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_A2a_C139M4_bandit_042425.csv", index_col=0),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Event_timestamps\events_mk801_A2a_C139M1_bandit_050225.csv", index_col=0),
+            "M521": pd.read_csv(fileloc + r"\events_mk801_A2a_M521_bandit_030625.csv", index_col=0),
+            "C139M4": pd.read_csv(fileloc + r"\events_mk801_A2a_C139M4_bandit_042425.csv", index_col=0),
+            "C139M1": pd.read_csv(fileloc + r"\events_mk801_A2a_C139M1_bandit_050225.csv", index_col=0),
             "C139M2": pd.read_csv(fileloc + r"\events_mk801_A2a_C139M2_bandit_042525.csv", index_col=0)
             }
         }
     }
 
-metadata = {
-    "D1-Cre": {
-        "Saline": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_F488_bandit_031825.csv", index_col=0),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_M690_bandit_040325.csv", index_col=0),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_D1_M700_bandit_040325.csv", index_col=0),
-            "M780": pd.read_csv(fileloc + r"\meta_saline_D1_M780_bandit_051325.csv", index_col=0),
-            "F797": pd.read_csv(fileloc + r"\meta_saline_D1_F797_bandit_051325.csv", index_col=0)
-            },
-        "MK801": {
-            "F488": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_D1_F488_bandit_040425.csv", index_col=0),
-            "M690": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_D1_M690_bandit_042925.csv", index_col=0),
-            "M700": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_D1_M700_bandit_042525.csv", index_col=0),
-            "M780": pd.read_csv(fileloc2 + r"\meta_mk801_D1_M780_bandit_060925.csv", index_col=0),
-            "F797": pd.read_csv(fileloc2 + r"\meta_mk801_D1_F797_bandit_060925.csv", index_col=0)
-            }
-        },
-    "A2a-Cre": {
-        "Saline": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_A2a_M521_bandit_011025.csv", index_col=0),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_A2a_C139M1_bandit_041425.csv", index_col=0),
-            "C139M2": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_A2a_C139M2_bandit_041425.csv", index_col=0),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_saline_A2a_C139M4_bandit_040725.csv", index_col=0)
-            },
-        "MK801": {
-            "M521": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_A2a_M521_bandit_030625.csv", index_col=0),
-            "C139M4": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_A2a_C139M4_bandit_042425.csv", index_col=0),
-            "C139M1": pd.read_csv(fileloc + r"\Good_data\Metadata\meta_mk801_A2a_C139M1_bandit_050225.csv", index_col=0),
-            "C139M2": pd.read_csv(fileloc + r"\meta_mk801_A2a_C139M2_bandit_042525.csv", index_col=0)
-            }
-        }
-    }
+metadata = pd.read_csv(r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_1\FED\all_metadata_081425.csv")
 
 #%%
 
 #Check the all the raw data looks okay
 strain = "D1-Cre"
-treatment = "MK801"
-mouse = "F797"
+treatment = "Saline"
+mouse = "M700"
 
 c_t_data = raw_data[strain][treatment][mouse].copy(deep=True)
 fig, ax = plt.subplots()
@@ -300,39 +260,39 @@ for strain in events:
 Fix some recordings where pellet drop and pellet retrieval both have 6 pulses
 """
 
-p_events["D1-Cre"]["Saline"]["M690"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][1::2]
-
-p_events["D1-Cre"]["Saline"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][1::2]
-
-p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][::2]
-p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][1::2]
-
-p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][::2]
-p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][1::2]
-
-p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][::2]
-p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][1::2]
-
-p_events["D1-Cre"]["MK801"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][1::2]
-
-p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][::2]
-p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][1::2]
-
-p_events["D1-Cre"]["Saline"]["F783"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"][1::2]
-
-p_events["D1-Cre"]["Saline"]["F782"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"][1::2]
+if not events_fixed:
+    p_events["D1-Cre"]["Saline"]["M690"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][::2]
+    p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][1::2]
+    
+    p_events["D1-Cre"]["Saline"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][::2]
+    p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][1::2]
+    
+    p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][::2]
+    p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][1::2]
+    
+    p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][::2]
+    p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][1::2]
+    
+    p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][::2]
+    p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][1::2]
+    
+    p_events["D1-Cre"]["MK801"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][::2]
+    p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][1::2]
+    
+    p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][::2]
+    p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][1::2]
+    
+    events_fixed = True
+    
+else:
+    print("This cell has already been run. Processing was not applied. Applying it again will disrupt the data")
 
 #%%
             
 #Here we do a sanity check that the pre-processing looks like its supposed to
 strain = "D1-Cre"
-treatment = "MK801"
-mouse = "F797"
+treatment = "Saline"
+mouse = "C139M2"
 event_name = "Pellet_retrieval"
 
 c_uf_events = events[strain][treatment][mouse].to_numpy().squeeze()
@@ -358,11 +318,11 @@ for strain in p_events:
             
             #Getting the duration of the session
             c_data = raw_data[strain][treatment][mouse]
-            c_meta = metadata[strain][treatment][mouse]
-            c_post_start_idx = np.searchsorted(c_data["Time"], c_meta["Post_start"][0])
+            c_meta = metadata[np.logical_and(metadata["Mouse"] == mouse, metadata["Treatment"] == treatment)]
+            c_post_start_idx = np.searchsorted(c_data["Time"], c_meta["Post_start"].values[0])
             
-            if not np.isnan(c_meta["Post_end"])[0]:
-                c_post_end_idx = np.searchsorted(c_data["Time"], c_meta["Post_end"][0])
+            if not np.isnan(c_meta["Post_end"]).values:
+                c_post_end_idx = np.searchsorted(c_data["Time"], c_meta["Post_end"].values[0])
                 
                 c_post = c_data.iloc[c_post_start_idx: c_post_end_idx]
                 
@@ -383,26 +343,26 @@ fig, ax = plt.subplots(figsize=(5,8))
 sns.boxplot(x="Treatment", y="Pellet_rate", data=concat_events, palette=["darkcyan", "olive"])
 sns.swarmplot(x="Treatment", y="Pellet_rate", data=concat_events, s=10, palette=["silver"])
 ax.set_xlabel("")
-ax.set_ylabel ("Pellet/hour")
+ax.set_ylabel ("Pellet Rate")
+ax.set_xticklabels(["Sal", "MK801"])
 sns.despine()
-plt.savefig(figure_dir + r"\Figure1_pellet_quant.eps", bbox_inches="tight")
+#plt.savefig(figure_dir + r"\Figure1_pellet_quant.eps", bbox_inches="tight")
 
 fig, ax = plt.subplots(figsize=(5,8))
 sns.boxplot(x="Treatment", y="Poke_rate", data=concat_events, palette=["darkcyan", "olive"])
 sns.swarmplot(x="Treatment", y="Poke_rate", data=concat_events, s=10, palette=["silver"])
 ax.set_xlabel("")
-ax.set_ylabel ("Pokes/hour")
+ax.set_ylabel ("Poke Rate")
+ax.set_xticklabels(["Sal", "MK801"])
 sns.despine()
-plt.savefig(figure_dir + r"\Figure1_poke_quant.eps", bbox_inches="tight")
+#plt.savefig(figure_dir + r"\Figure1_poke_quant.eps", bbox_inches="tight")
 
 pellets_ttest = ttest_ind(concat_events["Pellet_rate"][concat_events["Treatment"] == "Saline"], concat_events["Pellet_rate"][concat_events["Treatment"] == "MK801"])
 pokes_ttest = ttest_ind(concat_events["Poke_rate"][concat_events["Treatment"] == "Saline"], concat_events["Poke_rate"][concat_events["Treatment"] == "MK801"])
-
+            
 #%%
 
 #Now we pre-process the photometry data
-
-z_score = False
 hp_filter = True
 
 p_base_gcamp = {}
@@ -415,15 +375,14 @@ for strain in raw_data:
         p_post_gcamp[strain][treatment] = {}
         for mouse in raw_data[strain][treatment]:
             print(strain, treatment, mouse)
-            c_meta = metadata[strain][treatment][mouse]
+            c_meta = metadata[np.logical_and(metadata["Mouse"] == mouse, metadata["Treatment"] == treatment)]
             c_data = raw_data[strain][treatment][mouse]
             
             #If there is a baseline period, get it, otherwirse skip
-            if not np.isnan(c_meta["Baseline_start"])[0]:
-                
+            if not np.isnan(c_meta["Baseline_start"]).values:
                 try:
-                    c_base_start_idx = np.searchsorted(c_data["Time"], c_meta["Baseline_start"][0])
-                    c_base_end_idx = np.searchsorted(c_data["Time"], c_meta["Baseline_end"][0])
+                    c_base_start_idx = np.searchsorted(c_data["Time"], c_meta["Baseline_start"].values)[0]
+                    c_base_end_idx = np.searchsorted(c_data["Time"], c_meta["Baseline_end"].values)[0]
                 
                     c_baseline = c_data.iloc[c_base_start_idx:c_base_end_idx,:]
                     
@@ -448,26 +407,20 @@ for strain in raw_data:
                     c_f_gcamp = butter_filter(c_base_gcamp_norm, "bandpass", (0.005, 6), c_sr)
                    # c_f_gcamp = invian.bp_filter(c_gcamp_norm, 0.005, 6, c_sr)
                 else:
-                    c_f_gcamp = c_base_gcamp_norm
-                
-                if z_score:
-                    c_z_gcamp = (c_f_gcamp - c_f_gcamp.mean()) / c_f_gcamp.std()
+                    c_f_gcamp = c_base_gcamp_norm    
                     
-                else:
-                    c_z_gcamp = c_f_gcamp
-                    
-                p_base_gcamp[strain][treatment][mouse] = (c_base_ts, c_z_gcamp)
+                p_base_gcamp[strain][treatment][mouse] = (c_base_ts, c_f_gcamp)
                 
             try:
-                c_post_start_idx = np.searchsorted(c_data["Time"], c_meta["Post_start"][0])
+                c_post_start_idx = np.searchsorted(c_data["Time"], c_meta["Post_start"])[0]
                 
-                if not np.isnan(c_meta["Post_end"])[0]:
-                    c_post_end_idx = np.searchsorted(c_data["Time"], c_meta["Post_end"][0])
-                    
+                if not np.isnan(c_meta["Post_end"]).values:
+                    c_post_end_idx = np.searchsorted(c_data["Time"], c_meta["Post_end"])[0]
                     c_post = c_data.iloc[c_post_start_idx: c_post_end_idx]
                     
                 else:
                     c_post = c_data.iloc[c_post_start_idx:]
+
                 
                     
             except:
@@ -479,7 +432,7 @@ for strain in raw_data:
             
             c_post_hat = c_regr.predict(c_post_isos.reshape(-1,1))[:,0]
             
-            c_post_gcamp_norm = (c_post_gcamp - c_post_hat)/c_post_hat[0]
+            c_post_gcamp_norm = (c_post_gcamp - c_post_hat)/c_post_hat
             
             
             if hp_filter:
@@ -488,23 +441,17 @@ for strain in raw_data:
                 c_f_gcamp = butter_filter(c_post_gcamp_norm, "high", 0.001, c_sr)
             else:
                 c_f_gcamp = c_post_gcamp_norm
-            
-            if z_score:
-                c_z_gcamp = (c_f_gcamp - c_f_gcamp.mean()) / c_f_gcamp.std()
                 
-            else:
-                c_z_gcamp = c_f_gcamp
-                
-            p_post_gcamp[strain][treatment][mouse] = (c_post_ts, c_z_gcamp)
+            p_post_gcamp[strain][treatment][mouse] = (c_post_ts, c_f_gcamp)
 
 
 #%%
 
 # Test whether the baseline and post traces make sense
 
-strain = "D1-Cre"
-treatment = "MK801"
-mouse = "F797"
+strain = "A2a-Cre"
+treatment = "Saline"
+mouse = "M521"
 
 if mouse in p_base_gcamp[strain][treatment]:
     t_baseline = p_base_gcamp[strain][treatment][mouse]
@@ -580,9 +527,6 @@ strain = "D1-Cre"
 treatment = "MK801"
 mouse = "F797"
 
-v_lim = (-2,4)
-
-
 c_window = event_windows[event_name]
 if mouse == "all":
     c_data = event_pehs[strain][treatment]
@@ -596,11 +540,11 @@ if mouse == "all":
         c_peh = event_pehs[strain][treatment][c_mouse][event_name]
         
         fig, ax = plt.subplots(2,1, figsize=(8,8))
-        sns.heatmap(c_peh, ax=ax[0], cbar=False, xticklabels=False, vmin=v_lim[0], vmax=v_lim[1])
+        sns.heatmap(c_peh, ax=ax[0], cbar=False, xticklabels=False)
         ax[1].plot(np.linspace(c_window[0], c_window[1],c_peh.shape[1]), c_peh[:].mean(axis=0))
-        ax[1].set_xlim(c_window[0], c_window[1])
+        #ax[1].set_xlim(c_window[0], c_window[1])
         ax[0].set_title(f"{event_name}, {strain}, {treatment}, {c_mouse}")
-        ax[1].set_ylim(y_lim[0], y_lim[1])
+        #ax[1].set_ylim(y_lim[0], y_lim[1])
         ax[1].set_xlabel(f"Time from {event_name}")
         ax[1].set_ylabel("Z-Score")
         sns.despine(ax=ax[1])
@@ -614,11 +558,11 @@ else:
         y_lim = (-0.5,1)
     
     fig, ax = plt.subplots(2,1, figsize=(8,8))
-    sns.heatmap(c_peh, ax=ax[0], cbar=False, xticklabels=False, vmin=v_lim[0], vmax=v_lim[1])
+    sns.heatmap(c_peh, ax=ax[0], cbar=False, xticklabels=False)
     ax[1].plot(np.linspace(c_window[0], c_window[1],c_peh.shape[1]), c_peh.mean(axis=0))
     ax[1].set_xlim(c_window[0], c_window[1])
     ax[0].set_title(f"{event_name}, {strain}, {treatment}, {mouse}")
-    ax[1].set_ylim(y_lim[0], y_lim[1])
+    #ax[1].set_ylim(y_lim[0], y_lim[1])
     ax[1].set_xlabel(f"Time from {event_name}")
     ax[1].set_ylabel("Z-Score")
     sns.despine(ax=ax[1])
@@ -692,13 +636,11 @@ sns.lineplot(x="Time", y="value", hue="variable", data=m_sal_pr, errorbar=None, 
 sns.lineplot(x="Time", y="value", hue="variable", data=m_mk801_pr, errorbar=None, palette=["olive"], alpha=0.2, linewidth=3, legend=False)
 sns.despine()
 ax.set_ylabel(r"$\Delta F/F_0$")
-ax.set_xlabel("Time from pellet retrieval (s)")
-#ax.set_ylim(-1.5,1.5)
+ax.set_xlabel("Time (s)")
 ax.axvline(0, c="red", linestyle="--", linewidth=3)
 ax.spines["left"].set_linewidth(2)
 ax.spines["bottom"].set_linewidth(2)
 #plt.savefig(figure_dir + r"\Figure1_pellet_retrieval_sal_mk801.eps", bbox_inches="tight")
-
 
 #
 fig, ax = plt.subplots(figsize=(8,8))
@@ -725,6 +667,37 @@ ax.spines["bottom"].set_linewidth(2)
 
 #%%
 
+"""Here we find the averages of all D1-Cre and A2a-Cre responses after saline or MK-801"""
+
+pr_bins = np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1)
+all_pr_avgs = []
+for strain in event_pehs:
+    for treatment in event_pehs[strain]:
+        for mouse in event_pehs[strain][treatment]:
+            c_pr_peh = event_pehs[strain][treatment][mouse]["Pellet_retrieval"]
+            c_pr_peh_avg = c_pr_peh.mean(axis=0)
+            
+            pr_peh_avg_df = pd.DataFrame({"Value": c_pr_peh_avg, "Time": pr_bins})
+            pr_peh_avg_df = pr_peh_avg_df.assign(Strain=strain, Treatment=treatment, Mouse=mouse)
+            all_pr_avgs.append(pr_peh_avg_df)
+            
+concat_pr_avgs = pd.concat(all_pr_avgs)
+sal_pr_avgs = concat_pr_avgs[concat_pr_avgs["Treatment"] == "Saline"]
+mk801_pr_avgs = concat_pr_avgs[concat_pr_avgs["Treatment"] == "MK801"]
+
+fig, ax = plt.subplots(figsize=(8,8))
+sns.lineplot(x="Time", y="Value", hue="Treatment", data=concat_pr_avgs, errorbar=None, palette=["darkcyan", "olive"], linewidth=3, legend=False)
+sns.lineplot(x="Time", y="Value", hue="Mouse", data=sal_pr_avgs, errorbar=None, palette=["darkcyan"], alpha=0.2, linewidth=3, legend=False)
+sns.lineplot(x="Time", y="Value", hue="Mouse", data=mk801_pr_avgs, errorbar=None, palette=["olive"], alpha=0.2, linewidth=3, legend=False)
+sns.despine()
+ax.set_ylabel(r"$\Delta F/F_0$")
+ax.set_xlabel("Time (s)")
+ax.axvline(0, c="red", linestyle="--", linewidth=3)
+ax.spines["left"].set_linewidth(2)
+ax.spines["bottom"].set_linewidth(2)
+
+
+#%%
 """
 Here we quantify the maximum response for each mouse
 """
@@ -784,18 +757,16 @@ all_responses_df = pd.concat(max_responses_df.values())
 pre_resp = all_responses_df[all_responses_df["Event"] == "Pellet_retrieval_max"]
 post_resp = all_responses_df[all_responses_df["Event"] == "Pellet_retrieval_inh"]
 
-fig, ax = plt.subplots(figsize=(5,8))
+fig, ax = plt.subplots(figsize=(5.5,8))
 sns.boxplot(x="Treatment", y="Max", data=pre_resp, palette=["darkcyan", "olive"])
 sns.swarmplot(x="Treatment", y="Max", data=pre_resp, palette=["silver"], s=10, dodge=False)
 ax.set_xlabel("")
 ax.set_ylabel(r"Pre-retrieval Max. $\Delta F/F_0$")
 ax.set_xticklabels(["Sal", "MK801"])
-ax.set_yticks([0,0.01, 0.02])
-ax.set_ylim(-0.002, 0.022)
 sns.despine()
-#plt.savefig(figure_dir + r"\Figure1_pre_retrieval_quant.eps")
+plt.savefig(figure_dir + r"\Figure1_pre_retrieval_quant.eps", bbox_inches="tight")
 
-fig, ax = plt.subplots(figsize=(5,8))
+fig, ax = plt.subplots(figsize=(5.5,8))
 sns.boxplot(x="Treatment", y="Max", data=post_resp, palette=["darkcyan", "olive"])
 sns.swarmplot(x="Treatment", y="Max", data=post_resp, palette=["silver"], s=10, dodge=False)
 ax.set_xlabel("")
@@ -804,7 +775,7 @@ ax.set_xticklabels(["Sal", "MK801"])
 ax.set_yticks(np.arange(-0.04,0.01, 0.01))
 ax.set_ylim(-0.045,0.005)
 sns.despine()
-#plt.savefig(figure_dir + r"\Figure1_post_retrieval_quant.eps")
+plt.savefig(figure_dir + r"\Figure1_post_retrieval_quant.eps", bbox_inches="tight")
 
 
 pre_resp_ttest = ttest_rel(pre_resp["Max"][pre_resp["Treatment"] == "Saline"], pre_resp["Max"][pre_resp["Treatment"] == "MK801"])
