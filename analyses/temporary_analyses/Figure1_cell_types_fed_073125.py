@@ -321,11 +321,6 @@ p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["MK
 p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][::2]
 p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][1::2]
 
-p_events["D1-Cre"]["Saline"]["F783"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["F783"]["Pellet_retrieval"][1::2]
-
-p_events["D1-Cre"]["Saline"]["F782"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"][::2]
-p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["F782"]["Pellet_retrieval"][1::2]
 
 #%%
             
@@ -385,7 +380,7 @@ sns.swarmplot(x="Treatment", y="Pellet_rate", data=concat_events, s=10, palette=
 ax.set_xlabel("")
 ax.set_ylabel ("Pellet/hour")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure1_pellet_quant.eps", bbox_inches="tight")
+#plt.savefig(figure_dir + r"\Figure1_pellet_quant.eps", bbox_inches="tight")
 
 fig, ax = plt.subplots(figsize=(5,8))
 sns.boxplot(x="Treatment", y="Poke_rate", data=concat_events, palette=["darkcyan", "olive"])
@@ -393,7 +388,7 @@ sns.swarmplot(x="Treatment", y="Poke_rate", data=concat_events, s=10, palette=["
 ax.set_xlabel("")
 ax.set_ylabel ("Pokes/hour")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure1_poke_quant.eps", bbox_inches="tight")
+#plt.savefig(figure_dir + r"\Figure1_poke_quant.eps", bbox_inches="tight")
 
 pellets_ttest = ttest_ind(concat_events["Pellet_rate"][concat_events["Treatment"] == "Saline"], concat_events["Pellet_rate"][concat_events["Treatment"] == "MK801"])
 pokes_ttest = ttest_ind(concat_events["Poke_rate"][concat_events["Treatment"] == "Saline"], concat_events["Poke_rate"][concat_events["Treatment"] == "MK801"])
