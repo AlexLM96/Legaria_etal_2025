@@ -260,6 +260,7 @@ for strain in events:
 Fix some recordings where pellet drop and pellet retrieval both have 6 pulses
 """
 
+<<<<<<< HEAD
 if not events_fixed:
     p_events["D1-Cre"]["Saline"]["M690"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][::2]
     p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][1::2]
@@ -286,6 +287,29 @@ if not events_fixed:
     
 else:
     print("This cell has already been run. Processing was not applied. Applying it again will disrupt the data")
+=======
+p_events["D1-Cre"]["Saline"]["M690"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][::2]
+p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M690"]["Pellet_retrieval"][1::2]
+
+p_events["D1-Cre"]["Saline"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][::2]
+p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["Saline"]["M700"]["Pellet_retrieval"][1::2]
+
+p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][::2]
+p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M1"]["Pellet_retrieval"][1::2]
+
+p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][::2]
+p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M2"]["Pellet_retrieval"][1::2]
+
+p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_drop"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][::2]
+p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"] = p_events["A2a-Cre"]["Saline"]["C139M4"]["Pellet_retrieval"][1::2]
+
+p_events["D1-Cre"]["MK801"]["M700"]["Pellet_drop"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][::2]
+p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"] = p_events["D1-Cre"]["MK801"]["M700"]["Pellet_retrieval"][1::2]
+
+p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_drop"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][::2]
+p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"] = p_events["A2a-Cre"]["MK801"]["C139M1"]["Pellet_retrieval"][1::2]
+
+>>>>>>> 094af522984cd562da55f3c05b34fb99dbfcda90
 
 #%%
             
@@ -571,104 +595,6 @@ else:
 
 """Here we find the averages of all D1-Cre and A2a-Cre responses after saline or MK-801"""
 
-
-d1_saline_pr = {mouse: event_pehs["D1-Cre"]["Saline"][mouse]["Pellet_retrieval"] for mouse in 
-                event_pehs["D1-Cre"]["Saline"]}
-            
-d1_saline_pr_avg = pd.DataFrame({mouse: d1_saline_pr[mouse].mean(axis=0) for mouse in d1_saline_pr})
-d1_saline_pr_avg = d1_saline_pr_avg.assign(Strain="D1-Cre", Treatment="Saline", 
-                                           Time=np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1))
-m_d1_saline_pr_avg = pd.melt(d1_saline_pr_avg, id_vars=["Strain", "Treatment", "Time"])
-
-
-#Now the D2s
-a2a_saline_pr = {mouse: event_pehs["A2a-Cre"]["Saline"][mouse]["Pellet_retrieval"] for mouse in 
-                event_pehs["A2a-Cre"]["Saline"]}
-            
-a2a_saline_pr_avg = pd.DataFrame({mouse: a2a_saline_pr[mouse].mean(axis=0) for mouse in a2a_saline_pr})
-a2a_saline_pr_avg = a2a_saline_pr_avg.assign(Strain="a2a-Cre", Treatment="Saline", 
-                                           Time=np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1))
-m_a2a_saline_pr_avg = pd.melt(a2a_saline_pr_avg, id_vars=["Strain", "Treatment", "Time"])
-
-
-m_both_saline_pr = pd.concat([m_d1_saline_pr_avg, m_a2a_saline_pr_avg])
-
-
-#MK801
-d1_mk801_pr = {mouse: event_pehs["D1-Cre"]["MK801"][mouse]["Pellet_retrieval"] for mouse in 
-                event_pehs["D1-Cre"]["MK801"]}
-            
-d1_mk801_pr_avg = pd.DataFrame({mouse: d1_mk801_pr[mouse].mean(axis=0) for mouse in d1_mk801_pr})
-d1_mk801_pr_avg = d1_mk801_pr_avg.assign(Strain="D1-Cre", Treatment="MK801", 
-                                           Time=np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1))
-m_d1_mk801_pr_avg = pd.melt(d1_mk801_pr_avg, id_vars=["Strain", "Treatment", "Time"])
-
-#Both 
-m_d1_both_pr_avg = pd.concat([m_both_saline_pr, m_d1_mk801_pr_avg])
-
-#Now the D2s
-a2a_mk801_pr = {mouse: event_pehs["A2a-Cre"]["MK801"][mouse]["Pellet_retrieval"] for mouse in 
-                event_pehs["A2a-Cre"]["MK801"]}
-            
-a2a_mk801_pr_avg = pd.DataFrame({mouse: a2a_mk801_pr[mouse].mean(axis=0) for mouse in a2a_mk801_pr})
-a2a_mk801_pr_avg = a2a_mk801_pr_avg.assign(Strain="a2a-Cre", Treatment="MK801", 
-                                           Time=np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1))
-m_a2a_mk801_pr_avg = pd.melt(a2a_mk801_pr_avg, id_vars=["Strain", "Treatment", "Time"])
-
-#Both A2a
-m_a2a_both_pr_avg = pd.concat([m_a2a_saline_pr_avg, m_a2a_mk801_pr_avg])
-
-
-# Pool both MK801 groups
-m_both_mk801_pr = pd.concat([m_d1_mk801_pr_avg, m_a2a_mk801_pr_avg])
-
-
-#Pool saline and MK801 for plotting
-m_all_pr = pd.concat([m_both_saline_pr, m_both_mk801_pr])
-
-m_sal_pr = m_all_pr[m_all_pr["Treatment"] == "Saline"]
-m_mk801_pr = m_all_pr[m_all_pr["Treatment"] == "MK801"]
-
-#
-fig, ax = plt.subplots(figsize=(8,8))
-sns.lineplot(x="Time", y="value", hue="Treatment", data=m_all_pr, errorbar=None, palette=["darkcyan", "olive"], linewidth=3, legend=False)
-sns.lineplot(x="Time", y="value", hue="variable", data=m_sal_pr, errorbar=None, palette=["darkcyan"], alpha=0.2, linewidth=3, legend=False)
-sns.lineplot(x="Time", y="value", hue="variable", data=m_mk801_pr, errorbar=None, palette=["olive"], alpha=0.2, linewidth=3, legend=False)
-sns.despine()
-ax.set_ylabel(r"$\Delta F/F_0$")
-ax.set_xlabel("Time (s)")
-ax.axvline(0, c="red", linestyle="--", linewidth=3)
-ax.spines["left"].set_linewidth(2)
-ax.spines["bottom"].set_linewidth(2)
-#plt.savefig(figure_dir + r"\Figure1_pellet_retrieval_sal_mk801.eps", bbox_inches="tight")
-
-#
-fig, ax = plt.subplots(figsize=(8,8))
-sns.lineplot(x="Time", y="value", hue="Treatment", data=m_d1_both_pr_avg, errorbar="se", linewidth=3, legend=False, palette=["darkcyan", "olive"])
-sns.despine()
-ax.set_ylabel("Z-Score")
-ax.set_xlabel("Time from pellet retrieval (s)")
-#ax.set_ylim(-2.5,1.7)
-ax.axvline(0, c="red", linestyle="--", linewidth=3)
-ax.spines["left"].set_linewidth(2)
-ax.spines["bottom"].set_linewidth(2)
-
-
-#
-fig, ax = plt.subplots(figsize=(8,8))
-sns.lineplot(x="Time", y="value", hue="Treatment", data=m_a2a_both_pr_avg, errorbar="se", linewidth=3, legend=False, palette=["darkcyan", "olive"])
-sns.despine()
-ax.set_ylabel("Z-Score")
-ax.set_xlabel("Time from pellet retrieval (s)")
-#ax.set_ylim(-2.5,1.7)
-ax.axvline(0, c="red", linestyle="--", linewidth=3)
-ax.spines["left"].set_linewidth(2)
-ax.spines["bottom"].set_linewidth(2)
-
-#%%
-
-"""Here we find the averages of all D1-Cre and A2a-Cre responses after saline or MK-801"""
-
 pr_bins = np.arange(event_windows["Pellet_retrieval"][0],event_windows["Pellet_retrieval"][1], 0.1)
 all_pr_avgs = []
 for strain in event_pehs:
@@ -696,23 +622,9 @@ ax.axvline(0, c="red", linestyle="--", linewidth=3)
 ax.spines["left"].set_linewidth(2)
 ax.spines["bottom"].set_linewidth(2)
 
-
 #%%
-"""
-Here we quantify the maximum response for each mouse
-"""
 
-max_responses = {
-    "Left_poke": [],
-    "Right_poke": [],
-    "Pokes": [],
-    "Rewarded": [],
-    "Unrewarded": [],
-    "Pellet_drop": [],
-    "Pellet_retrieval_pre": [],
-    "Pellet_retrieval_post": []
-    }
-
+max_responses = []
 for strain in event_pehs:
     for treatment in event_pehs[strain]:
         for mouse in event_pehs[strain][treatment]:
@@ -727,39 +639,21 @@ for strain in event_pehs:
                     c_inhibition = c_peh[:,100:].min(axis=1)
                     c_inhibition_avg = c_inhibition.mean()
                     
-                    max_responses["Pellet_retrieval_pre"].append((mouse, treatment, strain, c_max_pre_avg, "Pellet_retrieval_max"))
-                    max_responses["Pellet_retrieval_post"].append((mouse, treatment, strain, c_inhibition_avg, "Pellet_retrieval_inh"))
+                    c_max_resp = pd.DataFrame({
+                        "Mouse": mouse,
+                        "Treatment": treatment,
+                        "Strain": strain,
+                        "Pre_max": [c_max_pre_avg],
+                        "Post_min": [c_inhibition_avg]
+                        })
                     
-                elif event == "Pellet_drop":
-                    c_max = c_peh[:,:10].max(axis=1)
-                    c_max_avg = c_max.mean()
-                    
-                    max_responses[event].append((mouse, treatment, strain, c_max_avg,event))
-                    
-                elif ((event == "Left_poke") or (event == "Right_poke") or (event == "Pokes")):
-                    c_max = c_peh[:,10:30].max(axis=1)
-                    c_max_avg = c_max.mean()
-                    max_responses[event].append((mouse, treatment, strain, c_max_avg, event))
-                    
-                elif ((event == "Rewarded") or (event == "Unrewarded")):
-                    c_max = c_peh[:, 40:60].max(axis=1)
-                    c_max_avg = c_max.mean()
-                    max_responses[event].append((mouse, treatment, strain, c_max_avg, event))
+                    max_responses.append(c_max_resp)
                 
-                
-max_responses_df = {event: pd.DataFrame(max_responses[event], columns=["Mouse", "Treatment", "Strain" , "Max", "Event"]) for event in max_responses}
-
-all_responses_df = pd.concat(max_responses_df.values())
-
-# d1_responses_df = all_responses_df[all_responses_df["Strain"] == "D1-Cre"]
-# a2a_responses_df = all_responses_df[all_responses_df["Strain"] == "A2a-Cre"]
-
-pre_resp = all_responses_df[all_responses_df["Event"] == "Pellet_retrieval_max"]
-post_resp = all_responses_df[all_responses_df["Event"] == "Pellet_retrieval_inh"]
+concat_responses = pd.concat(max_responses)
 
 fig, ax = plt.subplots(figsize=(5.5,8))
-sns.boxplot(x="Treatment", y="Max", data=pre_resp, palette=["darkcyan", "olive"])
-sns.swarmplot(x="Treatment", y="Max", data=pre_resp, palette=["silver"], s=10, dodge=False)
+sns.boxplot(x="Treatment", y="Pre_max", data=concat_responses, palette=["darkcyan", "olive"])
+sns.swarmplot(x="Treatment", y="Pre_max", data=concat_responses, palette=["silver"], s=10, dodge=False)
 ax.set_xlabel("")
 ax.set_ylabel(r"Pre-retrieval Max. $\Delta F/F_0$")
 ax.set_xticklabels(["Sal", "MK801"])
@@ -767,16 +661,18 @@ sns.despine()
 plt.savefig(figure_dir + r"\Figure1_pre_retrieval_quant.eps", bbox_inches="tight")
 
 fig, ax = plt.subplots(figsize=(5.5,8))
-sns.boxplot(x="Treatment", y="Max", data=post_resp, palette=["darkcyan", "olive"])
-sns.swarmplot(x="Treatment", y="Max", data=post_resp, palette=["silver"], s=10, dodge=False)
+sns.boxplot(x="Treatment", y="Post_min", data=concat_responses, palette=["darkcyan", "olive"])
+sns.swarmplot(x="Treatment", y="Post_min", data=concat_responses, palette=["silver"], s=10, dodge=False)
 ax.set_xlabel("")
 ax.set_ylabel(r"Post-retrieval Min. $\Delta F/F_0$")
 ax.set_xticklabels(["Sal", "MK801"])
-ax.set_yticks(np.arange(-0.04,0.01, 0.01))
-ax.set_ylim(-0.045,0.005)
+ax.set_yticks(np.arange(-0.03,0.01, 0.01))
+ax.set_ylim(-0.035,0.005)
 sns.despine()
 plt.savefig(figure_dir + r"\Figure1_post_retrieval_quant.eps", bbox_inches="tight")
 
 
-pre_resp_ttest = ttest_rel(pre_resp["Max"][pre_resp["Treatment"] == "Saline"], pre_resp["Max"][pre_resp["Treatment"] == "MK801"])
-post_resp_ttest = ttest_rel(pre_resp["Max"][post_resp["Treatment"] == "Saline"], post_resp["Max"][post_resp["Treatment"] == "MK801"])
+pre_resp_ttest = ttest_rel(concat_responses["Pre_max"][concat_responses["Treatment"] == "Saline"], 
+                           concat_responses["Pre_max"][concat_responses["Treatment"] == "MK801"])
+post_resp_ttest = ttest_rel(concat_responses["Post_min"][concat_responses["Treatment"] == "Saline"], 
+                            concat_responses["Max"][concat_responses["Treatment"] == "MK801"])

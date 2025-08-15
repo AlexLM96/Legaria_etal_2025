@@ -18,7 +18,8 @@ from scipy.signal import find_peaks, periodogram, spectrogram, filtfilt, butter,
 
 figure_dir = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025\Figure_panels"
 file_loc = r"C:\Users\alexmacal\Desktop\Legaria_etal_2025_data\fiber_cannula_pharmacology\Data"
-plt.rcParams.update({'font.size': 24, 'figure.autolayout': True})
+file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_2"
+plt.rcParams.update({'font.size': 32, 'figure.autolayout': True})
 
 #%%
 
@@ -70,7 +71,15 @@ def find_adjust_peaks(signal, widths, min_snr, sr, threshold=0, prominence=0):
     f_peaks = np.array(list(set(f_peaks)))  # Remove duplicates
     
     return f_peaks
+
+#Temp functions
+def butter_filter(signal, filt_type, freqs, sr, order=3):
+    b,a = butter(order, freqs, btype=filt_type, fs=sr)
+    y=filtfilt(b, a, signal, padtype="even")
     
+    return y
+
+
 #%%
 
 raw_data_mk801 = {
@@ -228,7 +237,8 @@ for condition in raw_data_mk801:
         c_baseline_hat = regr.predict(c_baseline_isos.reshape(-1,1))
         
         c_norm_baseline = (c_baseline_gcamp - c_baseline_hat[:,0])/c_baseline_hat[:,0]
-        c_norm_baseline_2 = bp_filter(c_norm_baseline, 0.005, 10, 40)
+        c_norm_baseline_2 = butter_filter(c_norm_baseline, "bandpass", (0.005,10), 40)
+        #c_norm_baseline_2 = bp_filter(c_norm_baseline, 0.005, 10, 40)
         c_norm_baseline_3 = c_norm_baseline_2
         #c_norm_baseline_3 = (c_norm_baseline_2 - c_norm_baseline_2.mean()) / c_norm_baseline_2.std()
         
@@ -240,7 +250,8 @@ for condition in raw_data_mk801:
         c_post_hat = regr.predict(c_post_isos.reshape(-1,1))
         
         c_norm_post = (c_post_gcamp - c_post_hat[:,0]) / c_post_hat[:,0]
-        c_norm_post_2 = bp_filter(c_norm_post, 0.005, 10, 40)
+        c_norm_post_2 = butter_filter(c_norm_post, "bandpass", (0.005,10), 40)
+        #c_norm_post_2 = bp_filter(c_norm_post, 0.005, 10, 40)
         c_norm_post_3 = c_norm_post_2
         #c_norm_post_3 = (c_norm_post_2 - c_norm_post_2.mean()) / c_norm_post_2.std()
         
@@ -296,8 +307,8 @@ for condition in p_data:
         c_baseline_peaks_mk801 = find_adjust_peaks(c_baseline_vals, widths, min_snr, 40, threshold=thresh)
         c_post_peaks_mk801 = find_adjust_peaks(c_post_vals, widths, min_snr, 40, prominence=prominence)
         
-        peaks_mk801_2[condition][mouse]["Baseline"] = c_baseline_peaks_mk801
-        peaks_mk801_2[condition][mouse]["Post"] = c_post_peaks_mk801
+        peaks_mk801[condition][mouse]["Baseline"] = c_baseline_peaks_mk801
+        peaks_mk801[condition][mouse]["Post"] = c_post_peaks_mk801
         
         
         c_baseline_ts = ts[condition][mouse]["Baseline"]
