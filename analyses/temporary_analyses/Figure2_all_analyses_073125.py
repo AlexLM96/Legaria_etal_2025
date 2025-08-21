@@ -283,7 +283,7 @@ This finds the peaks with the new data pre-processing
 """
 
 widths = np.arange(1,120)
-min_snr = 5
+min_snr = 6
 prominence = 0
 thresh = 1
 
@@ -357,7 +357,7 @@ else:
 #%%
 
 #Save additional peaks
-with open(file_loc + r'\icv_photometry_peaks_mk801_071625.p', 'wb') as pp:
+with open(file_loc + r'\icv_photometry_peaks_mk801_081525.p', 'wb') as pp:
     response = input("Are you sure you want to overwrite peaks (Y/N)? It may be better to use a new name.")
     
     if response == "Y":
@@ -376,12 +376,12 @@ c_mouse = "FC3M5"
 #'
 fig, ax = plt.subplots(2,1, figsize=(12,6))
 ax[0].plot(ts[c_cond][c_mouse]["Baseline"], p_data[c_cond][c_mouse]["Baseline"])
-#ax[0].scatter(ts[c_cond][c_mouse]["Baseline"][peaks_mk801[c_cond][c_mouse]["Baseline"]], p_data[c_cond][c_mouse]["Baseline"][peaks_mk801[c_cond][c_mouse]["Baseline"]], c="red")
-#ax[0].set_ylim(-2,8)
+ax[0].scatter(ts[c_cond][c_mouse]["Baseline"][peaks_mk801[c_cond][c_mouse]["Baseline"]], p_data[c_cond][c_mouse]["Baseline"][peaks_mk801[c_cond][c_mouse]["Baseline"]], c="red")
+ax[0].set_ylim(-0.01,0.035)
 ax[0].set_title(f"{c_cond}, {c_mouse}")
 ax[1].plot(ts[c_cond][c_mouse]["Post"], p_data[c_cond][c_mouse]["Post"])
-#ax[1].scatter(ts[c_cond][c_mouse]["Post"][peaks_mk801[c_cond][c_mouse]["Post"]], p_data[c_cond][c_mouse]["Post"][peaks_mk801[c_cond][c_mouse]["Post"]], c="red")
-#ax[1].set_ylim(-0.025,0.07)
+ax[1].scatter(ts[c_cond][c_mouse]["Post"][peaks_mk801[c_cond][c_mouse]["Post"]], p_data[c_cond][c_mouse]["Post"][peaks_mk801[c_cond][c_mouse]["Post"]], c="red")
+ax[1].set_ylim(-0.01,0.035)
 plt.axis("off")
 #plt.savefig(figure_dir + r"\example_01_mk801.eps", bbox_inches="tight")
 
@@ -397,8 +397,8 @@ ax.plot(ts[c_cond][c_mouse]["Post"], p_data[c_cond][c_mouse]["Post"])
 
 
 peak_rate_df = []
-for condition in peaks_mk801_2:
-    c_condition_peaks = peaks_mk801_2[condition]
+for condition in peaks_mk801:
+    c_condition_peaks = peaks_mk801[condition]
     
     for mouse in c_condition_peaks:
         c_peaks_baseline = c_condition_peaks[mouse]["Baseline"].size
@@ -428,7 +428,7 @@ ax.set_xlabel("MK801 Dose (mg/ml)")
 ax.set_ylabel("Trans. rate (%Baseline)")
 ax.set_xticklabels(["Sal", "0.1", "1", "2", "4"])
 sns.despine()
-plt.savefig(figure_dir + r"\Figure2_transient_quant_alldoses.eps", bbox_inches="tight")
+#plt.savefig(figure_dir + r"\Figure2_transient_quant_alldoses.eps", bbox_inches="tight")
 
 #%%
 
@@ -492,14 +492,14 @@ sns.lineplot(x="Freqs", y="value", hue="Treatment", data=m_base_power_2, linewid
 ax.set_xlabel("Frequency (Hz)")
 ax.set_ylabel("Baseline PSD (dB)")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure2_baselinepower_alldoses.eps")
+#plt.savefig(figure_dir + r"\Figure2_baselinepower_alldoses.eps")
 
 fig, ax = plt.subplots(figsize=(8,8))
 sns.lineplot(x="Freqs", y="value", hue="Treatment", data=m_post_power_2, linewidth=5, errorbar="se")
 ax.set_xlabel("Frequency (Hz)")
 ax.set_ylabel("Post-MK801 PSD (dB)")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure2_postpower_alldoses.eps")
+#plt.savefig(figure_dir + r"\Figure2_postpower_alldoses.eps")
 
 
 #We calculate the change in power with respect to baseline
@@ -512,7 +512,7 @@ sns.lineplot(x="Freqs", y="value", hue="Treatment", data=m_power_change, linewid
 ax.set_xlabel("Frequency (Hz)")
 ax.set_ylabel(r"$\Delta$ power (dB)")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure2_changepower_alldoses.eps")
+#plt.savefig(figure_dir + r"\Figure2_changepower_alldoses.eps")
 
 #Quantify change in power
 avg_power_change = m_power_change.groupby(["Treatment", "variable"]).mean().reset_index(drop=False).dropna()
@@ -525,4 +525,4 @@ ax.set_ylabel("Trans. rate (%Baseline)")
 ax.set_xticklabels(["Sal", "0.1", "1", "2", "4"])
 ax.set_ylabel("Change in power (dB)")
 sns.despine()
-plt.savefig(figure_dir + r"\Figure2_changepower_quant_alldoses.eps")
+#plt.savefig(figure_dir + r"\Figure2_changepower_quant_alldoses.eps")
