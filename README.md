@@ -5,7 +5,7 @@
 Here, we investigated the subcellular source and function of striatal population calcium signaling in vivo, using a combination of bulk calcium recordings, pharmacology and behavioral assessment. Antagonism of striatal NMDARs strongly diminished spontaneous and behaviorally evoked calcium and disrupted learning from rewarded actions. These results provide novel insight into the function and mechanisms of striatal calcium signaling.
 
 **Pre-print**
-[![bioRxiv Preprint](https://raw.githubusercontent.com/AlexLM96/Legaria_etal_2025/main/assets/biorxiv_badge.svg)](https://www.biorxiv.org)
+[![bioRxiv Preprint](https://raw.githubusercontent.com/AlexLM96/Legaria_etal_2025/main/assets/biorxiv_badge.jpg)](https://www.biorxiv.org)
 
 **Raw Datasets**
 [![OSF Project](https://img.shields.io/badge/OSF-View%20Project-blue)](
