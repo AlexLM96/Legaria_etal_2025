@@ -1,13 +1,21 @@
-# Legaria_etal_2025
+# N-Methyl-D-Aspartate receptors control striatal calcium and continuous learning
+# Legaria et al 2025
 
-View Raw Datasets
+**Abstract**
+Here, we investigated the subcellular source and function of striatal population calcium signaling in vivo, using a combination of bulk calcium recordings, pharmacology and behavioral assessment. Antagonism of striatal NMDARs strongly diminished spontaneous and behaviorally evoked calcium and disrupted learning from rewarded actions. These results provide novel insight into the function and mechanisms of striatal calcium signaling.
+
+**Pre-print**
+"Here will go the link to BioRxiv pre-print"
+
+**Raw Datasets**
 [![OSF Project](https://img.shields.io/badge/OSF-View%20Project-blue)](
 https://osf.io/stk2r/files/osfstorage)
 
-View all analyses by launching an interactive binder session
+**Analyses and code**
+All analyses in interactive Binder session
 
-View analyses by figure in Google Colab
-| Figure | Badge |
+Analyses by figure in Google Colab
+| Figure | Link |
 |-----------------|-----------------|
 | Figure 1   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JxzJ7L1SKVUR1SxrC6flOTjNY-IRERd9#scrollTo=asMJWxvajXls)    |
 | Figure 2   | Row 2, Col 2    |
