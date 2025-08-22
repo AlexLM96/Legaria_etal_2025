@@ -2,6 +2,7 @@
 ## Legaria et al 2025
 
 **Abstract**
+
 Here, we investigated the subcellular source and function of striatal population calcium signaling in vivo, using a combination of bulk calcium recordings, pharmacology and behavioral assessment. Antagonism of striatal NMDARs strongly diminished spontaneous and behaviorally evoked calcium and disrupted learning from rewarded actions. These results provide novel insight into the function and mechanisms of striatal calcium signaling.
 
 **Pre-print**
@@ -18,7 +19,9 @@ All analyses in interactive Binder session
 Analyses by figure in Google Colab
 | Figure | Link |
 |-----------------|-----------------|
+| Figure 1 (A-C) | Placeholder |
 | Figure 1   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JxzJ7L1SKVUR1SxrC6flOTjNY-IRERd9#scrollTo=asMJWxvajXls)    |
-| Figure 2   | Row 2, Col 2    |
-| Figure 3    | Row 3, Col 2    |
+| Figure 1 (K-O)  | Placeholder |
+| Figure 2   | Placeholder   |
+| Figure 3    | Placeholder   |
 
