@@ -12,15 +12,15 @@ Here, we investigated the subcellular source and function of striatal population
 [![OSF Project](https://img.shields.io/badge/OSF-View%20Project-blue)](
 https://osf.io/stk2r/files/osfstorage)
 
-**Analyses and code**
+**Analyses and analysis code**
 
-All analyses in interactive Binder session
+Analyses of all figures in interactive Binder session
 
 Analyses by figure in Google Colab
 | Figure | Link |
 |-----------------|-----------------|
-| Figure 1 (A-C) | Placeholder |
-| Figure 1 (D-J)  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JxzJ7L1SKVUR1SxrC6flOTjNY-IRERd9#scrollTo=asMJWxvajXls)    |
+| Figure 1 (A-D)  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1lLPOtC_TfuFtz8Gu2fT1UwMsEodISc8p#scrollTo=2zxTcit63r84)    |
+| Figure 1 (E-J)  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JxzJ7L1SKVUR1SxrC6flOTjNY-IRERd9#scrollTo=asMJWxvajXls)    |
 | Figure 1 (K-O)  | Placeholder |
 | Figure 2   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1NcYpNf0Q9vRlJdO6whR6KwSKAnAm19-W#scrollTo=mwddzh6jW9lk)   |
 | Figure 3    | Placeholder   |
