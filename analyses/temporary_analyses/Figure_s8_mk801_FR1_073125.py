@@ -215,13 +215,13 @@ p_mk801_icv_data["mk801_1"]["C109M3"].iloc[:,0] = p_mk801_icv_data["mk801_1"]["C
 #Now loading the systemic data
 saline_syst_data = {
     "saline_1": {
-        "C109M1": pd.read_csv(file_loc + "\\C109M1_MK801_FR1_111723.csv"),
-        "C109M2": pd.read_csv(file_loc + "\\C109M2_MK801_FR1_111723.csv"),
+        "C109M1": pd.read_csv(file_loc + "\\saline_syst_FR1_C109M1_111723.csv"),
+        "C109M2": pd.read_csv(file_loc + "\\saline_syst_FR1_C109M2_111723.csv"),
         },
     "saline_2": {
-        "C109M3": pd.read_csv(file_loc + "\\C109M3_MK801_FR1_112523.csv"),
-        "C109M4": pd.read_csv(file_loc + "\\C109M4_MK801_FR1_112523.csv"),
-        "C92M3": pd.read_csv(file_loc + "\\C92M3_MK801_FR1_112523.csv")
+        "C109M3": pd.read_csv(file_loc + "\\saline_syst_FR1_C109M3_112523.csv"),
+        "C109M4": pd.read_csv(file_loc + "\\saline_syst_FR1_C109M4_112523.csv"),
+        "C92M3": pd.read_csv(file_loc + "\\saline_syst_FR1_C92M3_112523.csv")
         }
     }
 
@@ -247,13 +247,13 @@ for session in saline_syst_data:
 
 mk801_syst_data = {
     "mk801_1": {
-        "C109M3": pd.read_csv(file_loc + "\\C109M3_MK801_FR1_111523.csv"),
-        "C109M4": pd.read_csv(file_loc + "\\C109M4_MK801_FR1_111523.csv"),
-        "C92M3": pd.read_csv(file_loc + "\\C92M3_MK801_FR1_111723.csv"),
+        "C109M3": pd.read_csv(file_loc + "\\mk801_syst_FR1_C109M3_111523.csv"),
+        "C109M4": pd.read_csv(file_loc + "\\mk801_syst_FR1_C109M4_111523.csv"),
+        "C92M3": pd.read_csv(file_loc + "\\mk801_syst_FR1_C92M3_111723.csv"),
         },
     "mk801_2": {
-        "C109M1": pd.read_csv(file_loc + "\\C109M1_MK801_FR1_112523.csv"),
-        "C109M2": pd.read_csv(file_loc + "\\C109M2_MK801_FR1_112523.csv")
+        "C109M1": pd.read_csv(file_loc + "\\mk801_syst_FR1_C109M1_112523.csv"),
+        "C109M2": pd.read_csv(file_loc + "\\mk801_syst_FR1_C109M2_112523.csv")
         }
     }
 
@@ -334,7 +334,7 @@ ax.plot(saline_icv_true, c="red", linewidth=5)
 ax.plot(saline_icv_bactions, c="darkcyan", linewidth=3)
 ax.set_ylim(0,1)
 plt.axis("off")
-plt.savefig(figure_dir + "\\sample_saline.eps")
+#plt.savefig(figure_dir + "\\sample_saline.eps")
 
 mk801_icv_sample = mk801_icv_slices["mk801_2"]["C109M1"].iloc[:100,:]
 mk801_icv_bactions = f3b.binned_paction(mk801_icv_sample)
@@ -345,7 +345,7 @@ ax.plot(mk801_icv_true, c="red", linewidth=5)
 ax.plot(mk801_icv_bactions, c="olive", linewidth=3)
 ax.set_ylim(0,1)
 plt.axis("off")
-plt.savefig(figure_dir + "\\sample_icv_mk801.eps")
+#plt.savefig(figure_dir + "\\sample_icv_mk801.eps")
 
 
 #%%
@@ -364,8 +364,9 @@ saline_icv_pellets = pd.DataFrame(saline_icv_pellets).T
 # Count of pellets after mk801 injections
 mk801_icv_pellets = {}
 for session in mk801_icv_slices:
+    print(session)
     c_session = mk801_icv_slices[session]
-    c_session_pellets = {mouse: [count_pellets(c_session[mouse])] for mouse in c_session}
+    c_session_icv_pellets = {mouse: [count_pellets(c_session[mouse])] for mouse in c_session}
     mk801_icv_pellets = mk801_icv_pellets | c_session_icv_pellets
     
 mk801_icv_pellets = pd.DataFrame(mk801_icv_pellets).T
@@ -433,7 +434,7 @@ ax.spines["left"].set_linewidth(3)
 ax.set_ylim(0,185)
 #ax.set_yticks(np.arange(0,201,40))
 sns.despine()
-plt.savefig(figure_dir +  "\\pokes_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
+#plt.savefig(figure_dir +  "\\pokes_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
 
 mk801_pokes_ttest = ttest_rel(m_all_icv_pokes["value"][m_all_icv_pokes["variable"]== "Sal"], 
                                 m_all_icv_pokes["value"][m_all_icv_pokes["variable"] == "MK801"])
@@ -460,7 +461,7 @@ sns.despine()
 ax.spines["bottom"].set_linewidth(3)
 ax.spines["left"].set_linewidth(3)
 ax.set_ylim(45,100)
-plt.savefig(figure_dir +  "\\leftpokes_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
+#plt.savefig(figure_dir +  "\\leftpokes_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
 
 left_percent_icv_ttest = ttest_rel(left_icv_prcnt["value"][left_icv_prcnt["variable"]== "Sal"], left_icv_prcnt["value"][left_icv_prcnt["variable"] == "MK801"])
 
@@ -502,7 +503,7 @@ ax.set_ylim(0,1)
 ax.spines["bottom"].set_linewidth(3)
 ax.spines["left"].set_linewidth(3)
 sns.despine()
-plt.savefig(figure_dir +  "\\winstay_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
+#plt.savefig(figure_dir +  "\\winstay_4ug_icv_FR1_mk801.eps", bbox_inches="tight")
 
 # Do paired ttest
 mk801_ws_ttest = ttest_rel(m_all_icv_ws["value"][m_all_icv_ws["variable"]== "Sal"], m_all_icv_ws["value"][m_all_icv_ws["variable"] == "MK801"], alternative="greater")
