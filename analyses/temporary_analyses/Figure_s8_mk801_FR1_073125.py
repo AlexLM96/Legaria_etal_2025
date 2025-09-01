@@ -532,7 +532,7 @@ ax.plot(mk801_syst_true, c="red", linewidth=5)
 ax.plot(mk801_syst_bactions, c="olive", linewidth=3)
 ax.set_ylim(0,1)
 plt.axis("off")
-plt.savefig(figure_dir + "\\Figure_s8_systemic_sample_mk801.eps")
+#plt.savefig(figure_dir + "\\Figure_s8_systemic_sample_mk801.eps")
 
 #%%
 
