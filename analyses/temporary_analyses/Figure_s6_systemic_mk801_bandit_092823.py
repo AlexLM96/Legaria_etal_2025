@@ -25,13 +25,13 @@ figure_dir = r"C:\Users\Alex\Box\Kravitz Lab Box Drive\Alex\Projects\Thesis proj
 
 #%%
 
-file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_s6"
+file_loc = r"C:\Users\Alex\Desktop\Legaria_etal_2025\data\temporary_data\Figure_s4"
 file_loc_mk801 = r"C:\Users\Alex\Desktop\mk801_systemic\MK801_cohort"
 post_hours = 8
 
 saline_data = {
     "saline_1": {
-        #"C48M1": pd.read_csv(file_loc + "\\saline_C48M1_022723.csv"),
+        "C48M1": pd.read_csv(file_loc + "\\saline_C48M1_022723.csv"),
         "C48M3": pd.read_csv(file_loc + "\\saline_C48M3_022723.csv"),
         "C50F1": pd.read_csv(file_loc + "\\saline_C50F1_022723.csv"),
         "C50F5": pd.read_csv(file_loc + "\\saline_C50F5_022723.csv"),
