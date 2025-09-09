@@ -14,9 +14,9 @@ https://osf.io/stk2r/files/osfstorage)
 
 **Analyses and analysis code**
 
-Analyses of all figures in interactive Binder session
+*Analyses of all figures in interactive Binder session* [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AlexLM96/Legaria_etal_2025/tree/main/Analysis_notebooks/HEAD?urlpath=%2Fdoc%2Ftree%2FOverview.ipynb)
 
-Analyses by figure in Google Colab
+*Analyses by figure in Google Colab* 
 | Figure | Link |
 |-----------------|-----------------|
 | Figure 1 (A-D)  | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1lLPOtC_TfuFtz8Gu2fT1UwMsEodISc8p#scrollTo=2zxTcit63r84)    |
@@ -31,3 +31,4 @@ Analyses by figure in Google Colab
 | Figure S5   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DLtyxzf5PgTb7uH6C7s3CFPnGGduyAV7#scrollTo=e8c884f5)   |
 | Figure S6   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1sZjveMuLV7XC9DirCmG0m_bKBXNeZ0Q-#scrollTo=3ceef892)   |
 
+For more information on how to use these tools, see [](Analysis_notebooks/Overview.ipynb)
