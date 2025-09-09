@@ -14,7 +14,7 @@ https://osf.io/stk2r/files/osfstorage)
 
 **Analyses and analysis code**
 
-*Analyses of all figures in interactive Binder session* [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AlexLM96/Legaria_etal_2025/tree/main/Analysis_notebooks/HEAD?urlpath=%2Fdoc%2Ftree%2FOverview.ipynb)
+*Analyses of all figures in interactive Binder session* [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/AlexLM96/Legaria_etal_2025/main?urlpath=lab/tree/Analysis_notebooks/Overview.ipynb)
 
 *Analyses by figure in Google Colab* 
 | Figure | Link |
