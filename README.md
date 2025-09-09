@@ -26,8 +26,8 @@ Analyses by figure in Google Colab
 | Figure 3   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1RVk2COPe13i46QD-nJKkVSrBuOYFGnB5#scrollTo=BvwnlWPsN_t3)   |
 | Figure S1    | Placeholder   |
 | Figure S2    | Placeholder   |
-| Figure S2    | Placeholder   |
-| Figure S4    | Placeholder   |
+| Figure S3    | Placeholder   |
+| Figure S4   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1AFgDatrwVjq1erpHbMgj6jqpbFTnjDR0#scrollTo=cafa7764)   |
 | Figure S5   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DLtyxzf5PgTb7uH6C7s3CFPnGGduyAV7#scrollTo=e8c884f5)   |
 | Figure S6   | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1sZjveMuLV7XC9DirCmG0m_bKBXNeZ0Q-#scrollTo=3ceef892)   |
 
